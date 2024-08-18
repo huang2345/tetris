@@ -1,0 +1,108 @@
+{
+    "compilerOptions": {
+        /* 访问 https://aka.ms/tsconfig 以了解更多关于此文件的信息 */
+
+        /* 项目设置 */
+        // "incremental": true,                              /* 保存.tsbuildinfo文件以支持项目的增量编译。 */
+        // "composite": true /* 启用项目引用约束。 */,
+        // "tsBuildInfoFile": "./.tsbuildinfo",              /* 指定增量编译信息文件的路径。 */
+        // "disableSourceOfProjectReferenceRedirect": true,  /* 禁用项目引用时优先使用源文件而不是声明文件。 */
+        // "disableSolutionSearching": true,                 /* 在编辑时，禁用多项目引用检查。 */
+        // "disableReferencedProjectLoad": true,             /* 减少TypeScript自动加载的项目数量。 */
+
+        /* 语言和环境 */
+        "target": "ES6" /* 设置生成的JavaScript的目标ECMAScript版本，并包含相应的库声明。 */,
+        // "lib": [],                                        /* 指定一组库声明文件，描述目标运行环境的特性。 */
+        // "jsx": "preserve",                                /* 指定JSX代码的生成方式。 */
+        // "experimentalDecorators": true,                   /* 启用对实验性装饰器的支持。 */
+        // "emitDecoratorMetadata": true,                    /* 在源文件中为装饰的声明发出设计类型元数据。 */
+        // "jsxFactory": "",                                 /* 指定React JSX输出时使用的JSX工厂函数。 */
+        // "jsxFragmentFactory": "",                         /* 指定React JSX输出时用于片段的JSX片段工厂函数。 */
+        // "jsxImportSource": "",                            /* 指定在使用JSX导入时的模块源。 */
+        // "reactNamespace": "",                             /* 指定React JSX输出时用于createElement的命名空间。 */
+        // "noLib": true,                                    /* 禁用包含默认库文件。 */
+        // "useDefineForClassFields": true,                  /* 使用ECMAScript标准的类字段定义。 */
+        // "moduleDetection": "auto",                        /* 自动检测模块格式。 */
+
+        /* 模块解析 */
+        "module": "ES6" /* 指定生成代码的模块系统。 */,
+        "rootDir": "./src/ts" /* 指定输入文件的根目录。 */,
+        // "moduleResolution": "node10",                     /* 指定模块解析策略。 */
+        // "baseUrl": "./",                                  /* 设置解析非相对模块名的基本目录。 */
+        // "paths": {},                                      /* 指定模块名的别名映射。 */
+        // "rootDirs": [],                                   /* 允许将多个目录视为一个，用于解决模块。 */
+        // "typeRoots": [],                                  /* 指定包含类型定义文件的目录列表。 */
+        // "types": [],                                      /* 显式包含的类型定义文件名列表。 */
+        // "allowUmdGlobalAccess": true,                     /* 允许从模块中访问UMD全局变量。 */
+        // "moduleSuffixes": [],                             /* 模块文件解析时搜索的文件名后缀列表。 */
+        // "allowImportingTsExtensions": true,               /* 允许导入带有TypeScript扩展名的文件。 */
+        // "resolvePackageJsonExports": true,                /* 使用package.json中的'exports'字段来解析包导入。 */
+        // "resolvePackageJsonImports": true,                /* 使用package.json中的'imports'字段来解析导入。 */
+        // "customConditions": [],                           /* 解析导入时使用的自定义条件。 */
+        // "resolveJsonModule": true,                        /* 允许导入.json文件。 */
+        // "allowArbitraryExtensions": true,                 /* 允许导入具有任意扩展名的文件。 */
+        // "noResolve": true,                                /* 禁止通过'import'、'require'或'<reference>'扩展TypeScript项目的文件数量。 */
+
+        /* JavaScript 支持 */
+        // "allowJs": true,                                  /* 允许JavaScript文件作为项目的一部分。 */
+        // "checkJs": true,                                  /* 对type-checked的JavaScript文件进行错误报告。 */
+        // "maxNodeModuleJsDepth": 1,                        /* 指定从'node_modules'中检查JavaScript文件时使用的最大文件夹深度。仅当'allowJs'为true时适用。 */
+
+        /* 输出 */
+        // "declaration": true,                              /* 从您的项目中的TypeScript和JavaScript文件生成.d.ts文件。 */
+        // "declarationMap": true,                           /* 为d.ts文件创建源映射文件。 */
+        // "emitDeclarationOnly": true,                      /* 仅输出d.ts文件，不输出JavaScript文件。 */
+        // "sourceMap": true,                                /* 为输出的JavaScript文件创建源映射文件。 */
+        // "inlineSourceMap": true,                          /* 将源映射文件内容包含在输出的JavaScript文件中。 */
+        // "outFile": "./",                                  /* 指定一个文件，将所有输出捆绑成一个JavaScript文件。如果'declaration'为true，则还指定一个文件来捆绑所有.d.ts输出。 */
+        "outDir": "./src/ts_js" /* 指定所有输出文件的输出文件夹。 */,
+        // "removeComments": true,                           /* 禁用注释的输出。 */
+        // "noEmit": true,                                   /* 禁用从编译中输出文件。 */
+        // "importHelpers": true,                            /* 允许从tslib中为每个项目导入一次辅助函数，而不是每个文件都包含它们。 */
+        // "downlevelIteration": true,                       /* 发出更兼容但冗长且性能较低的JavaScript代码以进行迭代。 */
+        // "sourceRoot": "",                                 /* 指定调试器查找引用源代码的根路径。 */
+        // "mapRoot": "",                                    /* 指定调试器应该在哪里查找映射文件，而不是生成的位置。 */
+        // "inlineSources": true,                            /* 在输出的JavaScript中的源映射文件中包含源代码。 */
+        "emitBOM": true /* 在输出文件的开头发出UTF-8字节顺序标记(BOM)。 */,
+        "newLine": "crlf" /* 设置输出文件的新行字符。 */,
+        // "stripInternal": true,                            /* 禁用输出JSDoc注释中包含'@internal'的声明。 */
+        // "noEmitHelpers": true,                            /* 禁用在编译输出中生成自定义辅助函数，如'__extends'。 */
+        "noEmitOnError": true /* 如果报告了任何类型检查错误，则禁用文件输出。 */,
+        // "preserveConstEnums": true,                       /* 禁用在生成的代码中擦除'const enum'声明。 */
+        // "declarationDir": "./" /* 指定生成的声明文件的输出目录。 */,
+
+        /* 互操作性约束 */
+        // "isolatedModules": true,                          /* 确保每个文件都可以安全地转换，而不依赖于其他导入。 */
+        // "verbatimModuleSyntax": true,                     /* 不转换或省略未标记为仅类型的任何导入或导出，确保它们根据'module'设置以输出文件的格式写入。 */
+        // "isolatedDeclarations": true,                     /* 要求在导出上有足够的注释，以便其他工具可以简单地生成声明文件。 */
+        // "allowSyntheticDefaultImports": true,             /* 当模块没有默认导出时，允许使用'import x from y'的语法。 */
+        "esModuleInterop": true /* 发出额外的JavaScript以简化对CommonJS模块的导入支持。这启用了类型兼容性上的'allowSyntheticDefaultImports'。 */,
+        // "preserveSymlinks": true,                         /* 禁用将符号链接解析为其真实路径。这与node中的相同标志相关。 */
+        "forceConsistentCasingInFileNames": true /* 确保导入中的大小写正确。 */,
+
+        /* Type Checking */
+        "strict": true /* 启用所有严格类型检查选项。 */,
+        // "noImplicitAny": true,                            /* 为具有隐式'any'类型的表达式和声明启用错误报告。 */
+        "strictNullChecks": true /* 在类型检查时，考虑'null'和'undefined'。 */,
+        // "strictFunctionTypes": true,                      /* 在分配函数时，检查以确保参数和返回值是子类型兼容的。 */
+        "strictBindCallApply": true /* 检查'bind'、'call'和'apply'方法的参数是否与原始函数匹配。 */,
+        // "strictPropertyInitialization": true,             /* 检查类中声明的属性是否在构造函数中被设置。 */
+        "noImplicitThis": true /* 当'this'被赋予'any'类型时，启用错误报告。 */,
+        // "useUnknownInCatchVariables": true,               /* 默认情况下，将catch子句中的变量视为'unknown'类型，而不是'any'。 */
+        // "alwaysStrict": true,                             /* 确保始终发出'use strict'。 */
+        // "noUnusedLocals": true,                           /* 当局部变量未被读取时，启用错误报告。 */
+        "noUnusedParameters": true /* 当函数参数未被读取时，引发错误。 */,
+        "exactOptionalPropertyTypes": true /* 按照声明的可选属性类型进行解释，而不是添加'undefined'。 */,
+        // "noImplicitReturns": true,                        /* 在函数中没有显式返回值的代码路径上启用错误报告。 */
+        // "noFallthroughCasesInSwitch": true,               /* 在switch语句中的穿透case上启用错误报告。 */
+        // "noUncheckedIndexedAccess": true,                 /* 在使用索引访问时，向类型添加'undefined'。 */
+        // "noImplicitOverride": true,                       /* 确保派生类中的覆盖成员被标记为override修饰符。 */
+        "noPropertyAccessFromIndexSignature": true /* 强制对使用索引类型声明的键使用索引访问器。 */,
+        // "allowUnusedLabels": true,                        /* 禁用对未使用标签的错误报告。 */
+        // "allowUnreachableCode": true,                     /* 禁用对不可达代码的错误报告。 */
+
+        /* 完整性 */
+        // "skipDefaultLibCheck": true,                      /* 跳过随TypeScript包含的.d.ts文件的类型检查。 */
+        "skipLibCheck": true /* 跳过所有.d.ts文件的类型检查。 */
+    }
+}
