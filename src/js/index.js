@@ -1,8 +1,9 @@
 import * as Map from './../ts/map.ts';
-import * as Block from './../ts/block.ts';
+import Block from './../ts/block.ts';
 
 let app = document.querySelector('#app');
 
+//初始化容器
 {
     let table = document.createElement('div');
     table.style.setProperty('width', '500px');
@@ -15,4 +16,7 @@ let app = document.querySelector('#app');
     Map.setMap(30, 30);
     app.appendChild(table);
 }
-Block.rotate_shape();
+{
+    //初始化tetris_data
+    Block.init();
+}
