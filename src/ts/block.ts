@@ -109,14 +109,16 @@ function set_rotate_shape(): boolean {
     return true;
 }
 const block = () => {};
+block.data = [] as number[][][][];
 block.init = function (): boolean {
     try {
-        set_rotate_shape();
+        let temp = set_rotate_shape();
+        block.data = tetris_data;
+        if (!temp) throw new Error('设置形状旋转失败！');
     } catch (e: any) {
-        console.error('该文件初始化错误！', e.message);
+        console.log('该文件初始化错误！', e.message);
         return false;
     }
     return true;
 };
-block.tetris_data = tetris_data;
 export default block;

@@ -1,22 +1,29 @@
 import * as Map from './../ts/map.ts';
 import Block from './../ts/block.ts';
+import Draw from './../ts/draw.ts';
 
 let app = document.querySelector('#app');
 
 //初始化容器
+let container = document.createElement('div');
 {
-    let table = document.createElement('div');
-    table.style.setProperty('width', '500px');
-    table.style.setProperty('height', '500px');
+    container.style.setProperty('width', '500px');
+    container.style.setProperty('height', '500px');
 
     //test
-    table.style.setProperty('border', '1px solid black');
+    container.style.setProperty('border', '1px solid black');
 
-    Map.setContainer(table);
+    Map.setContainer(container);
     Map.setMap(30, 30);
-    app.appendChild(table);
+    app.appendChild(container);
 }
 {
     //初始化tetris_data
     Block.init();
+}
+{
+    Draw.get_origin_tetris_array(Block);
+    Draw.getContainer(container);
+    Draw.defaultPointerIndex();
+    Draw.testText();
 }
