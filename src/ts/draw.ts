@@ -1,4 +1,4 @@
-var origin_tetris_array: Array<number>[][][][] | undefined = undefined;
+var origin_tetris_array: number[][][][] | undefined = undefined;
 function get_origin_tetris_array(block: any) {
     try {
         if (!(block instanceof Object))
@@ -10,25 +10,50 @@ function get_origin_tetris_array(block: any) {
         return null;
     }
 }
-function random_block() {
+function random_block():
+    | {
+          tetris_array: number[][][];
+          randomDirectionFunc: () => number[][] | undefined;
+      }
+    | undefined {
+    interface returnValue {
+        tetris_array: number[][][];
+        randomDirectionFunc: number[][] | undefined;
+    }
+    let random_block_number: number;
+    //设置方块初始随机方向
+    function random_block_direction(): number[][] | undefined {
+        try {
+            if (origin_tetris_array == undefined)
+                throw new Error('未获取到origin_tetris_array');
+            let random_direction_index = Math.floor(
+                Math.random() * origin_tetris_array[random_block_number].length
+            );
+            if (
+                random_direction_index ==
+                origin_tetris_array[random_block_number].length
+            )
+                return random_block_direction();
+            return origin_tetris_array[random_block_number][
+                random_direction_index
+            ];
+        } catch (e: any) {
+            console.error(e.message);
+        }
+    }
     try {
         if (origin_tetris_array == undefined)
             throw new Error('未获取到origin_tetris_array');
-        let random_block_number = Math.floor(
+        random_block_number = Math.floor(
             Math.random() * origin_tetris_array.length
         );
-        let random_direction_number = Math.floor(
-            Math.random() * origin_tetris_array[random_block_number].length
-        );
-        if (
-            random_block_number == origin_tetris_array.length ||
-            random_direction_number ==
-                origin_tetris_array[random_block_number].length
-        )
+        if (random_block_number == origin_tetris_array.length)
             return random_block();
-        return origin_tetris_array[random_block_number][
-            random_direction_number
-        ];
+        let returnValue = {
+            tetris_array: origin_tetris_array[random_block_number],
+            randomDirectionFunc: random_block_direction,
+        };
+        return returnValue;
     } catch (e: any) {
         console.error(e.message);
     }
@@ -69,6 +94,7 @@ const testObject = {
     get_origin_tetris_array,
     getContainer,
     defaultPointerIndex,
+    random_block,
     testText() {
         console.log(pointerIndex);
         console.log(origin_tetris_array);

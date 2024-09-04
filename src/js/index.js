@@ -25,5 +25,7 @@ let container = document.createElement('div');
     Draw.get_origin_tetris_array(Block);
     Draw.getContainer(container);
     Draw.defaultPointerIndex();
+    let k = Draw.random_block();
+    console.log(k, k.randomDirectionFunc());
     Draw.testText();
 }
