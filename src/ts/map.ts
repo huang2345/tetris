@@ -1,4 +1,4 @@
-interface divMessage {
+export interface divMessage {
     type: string;
     id: number;
     Element?: HTMLElement;
@@ -20,18 +20,18 @@ function initMap(x: number, y: number): boolean {
     }
     return true;
 }
-//获取容器
-var pack: HTMLElement;
+//获取Map容器
+var Mapcontainer: HTMLElement;
 export function setContainer(containerData: HTMLElement): boolean {
-    pack = containerData;
-    if (!pack) return false;
+    Mapcontainer = containerData;
+    if (!Mapcontainer) return false;
     return true;
 }
 
 export function setMap(
     xSize: number,
     ySize: number,
-    container: HTMLElement = pack
+    container: HTMLElement = Mapcontainer
 ): boolean {
     if (!container || xSize <= 0 || ySize <= 0) return false;
 
@@ -72,14 +72,22 @@ export function setMap(
     }
     return true;
 }
-export function getDiv(id: number): HTMLElement | null {
-    if (!pack) return null;
+export function getDiv(id: number): divMessage | undefined {
     try {
-        var value = pack.children[id - 1];
-        if (value) return value as HTMLElement;
+        if (!map) throw new Error('map未初始化');
+        //为什么id-1，是因为部分id的j==0,所以需要这里id-1，j才可以-1
+        let i = Math.floor((id - 1) / map.length);
+        let j;
+        if (i == 0) j = id;
+        else j = id - 1 - i * map.length;
+        let value = map[i][j];
+
+        if (!value) {
+            console.log(i, j);
+            throw new Error('getDiv获取失败！');
+        }
+        return value;
     } catch (e) {
         console.error(e);
     }
-    console.log('1');
-    return null;
 }

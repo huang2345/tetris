@@ -8,15 +8,13 @@ function initMap(x, y) {
                 map[i][j] = { type: 'null', id: (i + 1) * i + j };
             }
         }
-    }
-    catch (e) {
+    } catch (e) {
         console.log(e);
     }
     return true;
 }
 function setMap(container, xSize, ySize) {
-    if (!container || xSize <= 0 || ySize <= 0)
-        return false;
+    if (!container || xSize <= 0 || ySize <= 0) return false;
     try {
         let containerCSS = `
     display: grid;
@@ -32,8 +30,7 @@ function setMap(container, xSize, ySize) {
             var divSize;
             if (containerX > containerY) {
                 divSize = containerY / ySize;
-            }
-            else {
+            } else {
                 divSize = containerX / xSize;
             }
         }
@@ -45,8 +42,7 @@ function setMap(container, xSize, ySize) {
                 container.appendChild(div);
             }
         }
-    }
-    catch (e) {
+    } catch (e) {
         console.error(e);
     }
     return true;

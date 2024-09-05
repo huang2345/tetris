@@ -22,10 +22,11 @@ let container = document.createElement('div');
     Block.init();
 }
 {
-    Draw.get_origin_tetris_array(Block);
-    Draw.getContainer(container);
-    Draw.defaultPointerIndex();
-    let k = Draw.random_block();
-    console.log(k, k.randomDirectionFunc());
-    Draw.testText();
+    // Draw.get_origin_tetris_array(Block);
+    // Draw.getContainer(container);
+    // Draw.defaultPointerIndex();
+    // let k = Draw.random_block();
+    // console.log(k, k.randomDirectionFunc());
+    // Draw.draw(k.randomDirectionFunc(), Draw.getPointerIndex());
+    // Draw.testText();
 }
