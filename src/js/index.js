@@ -1,6 +1,6 @@
 import * as Map from './../ts/map.ts';
 import Block from './../ts/block.ts';
-import Draw from './../ts/draw.ts';
+import { get_origin_tetris_array, getContainer } from './../ts/draw.ts';
 
 let app = document.querySelector('#app');
 
@@ -22,11 +22,8 @@ let container = document.createElement('div');
     Block.init();
 }
 {
-    // Draw.get_origin_tetris_array(Block);
-    // Draw.getContainer(container);
-    // Draw.defaultPointerIndex();
-    // let k = Draw.random_block();
-    // console.log(k, k.randomDirectionFunc());
-    // Draw.draw(k.randomDirectionFunc(), Draw.getPointerIndex());
+    get_origin_tetris_array(Block);
+    getContainer(container);
+    import('./../ts/game.ts');
     // Draw.testText();
 }

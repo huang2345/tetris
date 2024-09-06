@@ -1,5 +1,5 @@
 var origin_tetris_array: number[][][][] | undefined = undefined;
-function get_origin_tetris_array(block: any) {
+export function get_origin_tetris_array(block: any) {
     try {
         if (!(block instanceof Object))
             throw new Error('block不是Object，参数错误');
@@ -10,12 +10,11 @@ function get_origin_tetris_array(block: any) {
         return null;
     }
 }
-function random_block():
-    | {
-          tetris_array: number[][][];
-          randomDirectionFunc: () => number[][] | undefined;
-      }
-    | undefined {
+export interface block {
+    tetris_array: number[][][];
+    randomDirectionFunc: () => number[][] | undefined;
+}
+function random_block(): block | undefined {
     let random_block_number: number;
     //设置方块初始随机方向
     function random_block_direction(): number[][] | undefined {
@@ -55,7 +54,7 @@ function random_block():
     }
 }
 var container: HTMLElement | undefined = undefined;
-function getContainer(container_parameter: HTMLElement): boolean {
+export function getContainer(container_parameter: HTMLElement): boolean {
     try {
         if (container_parameter == undefined) throw new Error('参数错误');
         if (!(container_parameter instanceof HTMLElement))
@@ -68,44 +67,62 @@ function getContainer(container_parameter: HTMLElement): boolean {
     return true;
 }
 var pointerIndex: number | undefined = undefined;
-var containerWidth: string = '';
-function getPointerIndex(): number | undefined {
-    try {
-        if (!pointerIndex) throw new Error('pointerIndex值为undefined');
-        return pointerIndex;
-    } catch (e: any) {
-        console.error(e.message);
-        return undefined;
-    }
-}
-function defaultPointerIndex() {
-    try {
-        //匹配数字
-        let tempRegexp = /\d+/;
-        let columns = container?.style
-            .getPropertyValue('grid-template-columns')
-            .match(tempRegexp);
-        for (let i of columns as Array<string>) {
-            containerWidth += i;
+//当pointer类new时，进行默认设置
+export var containerWidth: string = '';
+class pointer {
+    #pointerIndex: number | undefined = undefined;
+    constructor() {
+        try {
+            //匹配数字
+            let tempRegexp = /\d+/;
+            let columns = container?.style
+                .getPropertyValue('grid-template-columns')
+                .match(tempRegexp);
+            for (let i of columns!) {
+                containerWidth += i;
+            }
+            this.setPointerIndex(Math.floor(parseInt(containerWidth) / 2));
+            if (!this.getPointerIndex())
+                throw new Error('pointerIndex在进行默认设置时为undefined');
+        } catch (e: any) {
+            console.error(e.message);
         }
-        pointerIndex = Math.floor(parseInt(containerWidth) / 2);
-        if (!pointerIndex)
-            throw new Error('pointerIndex在进行默认设置时为undefined');
-        return true;
-    } catch (e: any) {
-        console.error(e.message);
-        return false;
+    }
+    getPointerIndex(): number | undefined {
+        try {
+            if (!this.#pointerIndex)
+                throw new Error('pointerIndex值为undefined');
+            return this.#pointerIndex;
+        } catch (e: any) {
+            console.error(e.message);
+            return undefined;
+        }
+    }
+    setPointerIndex(index: number) {
+        try {
+            if (index < 0) throw new Error('index不能小于0');
+            if (index > parseInt(containerWidth) * parseInt(containerWidth)) {
+                throw new Error('index不能大于map设置的容器大小');
+            }
+            this.#pointerIndex = index;
+        } catch (e: any) {
+            console.error(e.message);
+        }
     }
 }
 //根据光标的位置以及一个number[][]来设置background-color
 //利用map.ts创建好的容器
 import { divMessage } from './map';
+export interface draw_returnValue {
+    yes_setBackgroundColor: boolean;
+    clear: () => boolean;
+}
 let drawTest: object;
 function draw(
-    tetris: number[][],
-    pointer: number,
+    tetris: number[][] | undefined,
+    pointer: number | undefined,
     getDiv: (id: number) => divMessage | undefined
-):{yes_setBackgroundColor:boolean,clear:()=>boolean} {
+): draw_returnValue {
     function randomColor() {
         function random_256(): number {
             let returnValue = Math.floor(Math.random() * 256);
@@ -126,11 +143,17 @@ function draw(
     function setBackgroundColor(color: string): boolean {
         try {
             if (!pointerDiv) throw new Error('pointerDiv为undefined');
+            if (!tetris) throw new Error('tetris为undefined');
             //检测占用并设置占用
-            if (pointerDiv.occupy != 0)
-                throw new Error(`pointer的id:${pointerDiv.id}位置已被占用`);
-            else pointerDiv.occupy = 1;
-            pointerDiv.Element?.style.setProperty('background-color', color);
+            if (tetris[0][0] == 1) {
+                if (pointerDiv.occupy != 0)
+                    throw new Error(`pointer的id:${pointerDiv.id}位置已被占用`);
+                else pointerDiv.occupy = 1;
+                pointerDiv.Element?.style.setProperty(
+                    'background-color',
+                    color
+                );
+            }
             for (let i of otherDivs) {
                 if (i.occupy != 0)
                     throw new Error(`other矩阵的该id:${i.id}位置已被占用`);
@@ -167,12 +190,14 @@ function draw(
                 );
             }
             return true;
-        } catch (e:any) {
+        } catch (e: any) {
             console.error(e.message);
             return false;
         }
     }
     try {
+        if (!pointer) throw new Error('pointer为undefined');
+        if (!tetris) throw new Error('tetris为undefined');
         var pointerDiv = getDiv(pointer);
         var otherDivs: divMessage[] = [];
         //获取二维矩阵对应的盒子
@@ -192,26 +217,25 @@ function draw(
             if (value === pointerDiv) return false;
             return true;
         });
-        
+
         drawTest = { pointerDiv, otherDivs };
-        return {setBackgroundColor(randomColor()),clear}
+        let yes_setBackgroundColor = setBackgroundColor(randomColor());
+        return { yes_setBackgroundColor, clear };
     } catch (e: any) {
         console.error(e);
-        return false;
+        return { yes_setBackgroundColor: false, clear };
     }
 }
 
-const testObject = {
-    get_origin_tetris_array,
-    getContainer,
-    defaultPointerIndex,
+const defaultObject = {
     random_block,
     draw,
-    getPointerIndex,
+    pointer,
     testText() {
         console.log('pointerIndex:', pointerIndex);
         console.log('origin_tetris_array:', origin_tetris_array);
         console.log('drawTest', drawTest);
     },
 };
-export default testObject;
+
+export default defaultObject;

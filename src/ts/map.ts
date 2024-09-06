@@ -76,12 +76,14 @@ export function getDiv(id: number): divMessage | undefined {
     try {
         if (!map) throw new Error('map未初始化');
         //为什么id-1，是因为部分id的j==0,所以需要这里id-1，j才可以-1
+        //除此之外id-1还可以起到规避由于数组起始位为0，导致返回值的id多1的效果
         let i = Math.floor((id - 1) / map.length);
         let j;
-        if (i == 0) j = id;
+        if (i == 0) j = id - 1;
         else j = id - 1 - i * map.length;
         let value = map[i][j];
 
+        if (value.id != id) throw new Error('getDiv的返回值id与参数id不一致');
         if (!value) {
             console.log(i, j);
             throw new Error('getDiv获取失败！');

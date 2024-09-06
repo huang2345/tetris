@@ -14,6 +14,14 @@ const config = {
         path: path.resolve(__dirname, 'dist'),
         clean: true,
     },
+    resolve: {
+        // 以下配置会将没指定拓展名的文件按如下类型查找匹配
+        extensions: ['*', '.js', '.ts', '.vue'],
+        // 设置别名
+        alias: {
+            '@': path.resolve(__dirname, './src'), // 这样配置后 @ 可以指向 src 目录
+        },
+    },
     devtool: 'inline-source-map',
     devServer: {
         open: true,
