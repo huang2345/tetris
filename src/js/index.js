@@ -26,7 +26,9 @@ let container = document.createElement('div');
     Draw.getContainer(container);
     Draw.defaultPointerIndex();
     let k = Draw.random_block();
-    console.log(k, k.randomDirectionFunc());
-    Draw.draw(k.randomDirectionFunc(), Draw.getPointerIndex(), Map.getDiv);
+    let k_test = k.randomDirectionFunc();
+    let pointer = Draw.getPointerIndex();
+    console.log(k, k_test, pointer);
+    Draw.draw(k_test, pointer, Map.getDiv);
     Draw.testText();
 }

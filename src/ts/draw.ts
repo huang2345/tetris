@@ -127,10 +127,15 @@ function draw(
         try {
             if (!pointerDiv) throw new Error('pointerDiv为undefined');
             //检测占用并设置占用
-            if (pointerDiv.occupy != 0)
-                throw new Error(`pointer的id:${pointerDiv.id}位置已被占用`);
-            else pointerDiv.occupy = 1;
-            pointerDiv.Element?.style.setProperty('background-color', color);
+            if (tetris[0][0] == 1) {
+                if (pointerDiv.occupy != 0)
+                    throw new Error(`pointer的id:${pointerDiv.id}位置已被占用`);
+                else pointerDiv.occupy = 1;
+                pointerDiv.Element?.style.setProperty(
+                    'background-color',
+                    color
+                );
+            }
             for (let i of otherDivs) {
                 if (i.occupy != 0)
                     throw new Error(`other矩阵的该id:${i.id}位置已被占用`);
