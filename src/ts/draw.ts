@@ -105,7 +105,7 @@ function draw(
     tetris: number[][],
     pointer: number,
     getDiv: (id: number) => divMessage | undefined
-):{yes_setBackgroundColor:boolean,clear:()=>boolean} {
+): { yes_setBackgroundColor: boolean; clear: () => boolean } {
     function randomColor() {
         function random_256(): number {
             let returnValue = Math.floor(Math.random() * 256);
@@ -167,7 +167,7 @@ function draw(
                 );
             }
             return true;
-        } catch (e:any) {
+        } catch (e: any) {
             console.error(e.message);
             return false;
         }
@@ -192,12 +192,13 @@ function draw(
             if (value === pointerDiv) return false;
             return true;
         });
-        
+
         drawTest = { pointerDiv, otherDivs };
-        return {setBackgroundColor(randomColor()),clear}
+        let yes_setBackgroundColor = setBackgroundColor(randomColor());
+        return { yes_setBackgroundColor, clear };
     } catch (e: any) {
         console.error(e);
-        return false;
+        return { yes_setBackgroundColor: false, clear };
     }
 }
 
