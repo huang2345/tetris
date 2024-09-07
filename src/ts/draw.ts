@@ -169,15 +169,17 @@ function draw(
     function clear(): boolean {
         try {
             if (!pointerDiv) throw new Error('pointerDiv为undefined');
-            if (pointerDiv.occupy != 1)
-                throw new Error(
-                    `pointer的id:${pointerDiv.id}位置未被占用，无法清除`
+            if (tetris![0][0] == 1) {
+                if (pointerDiv.occupy != 1)
+                    throw new Error(
+                        `pointer的id:${pointerDiv.id}位置未被占用，无法清除`
+                    );
+                else pointerDiv.occupy = 0;
+                pointerDiv.Element?.style.setProperty(
+                    'background-color',
+                    'rgb(255,255,255)'
                 );
-            else pointerDiv.occupy = 0;
-            pointerDiv.Element?.style.setProperty(
-                'background-color',
-                'rgb(255,255,255)'
-            );
+            }
             for (let i of otherDivs) {
                 if (i.occupy != 1)
                     throw new Error(

@@ -24,6 +24,10 @@ let container = document.createElement('div');
 {
     get_origin_tetris_array(Block);
     getContainer(container);
-    import('./../ts/game.ts');
     // Draw.testText();
+}
+{
+    import('./../ts/game.ts').then((module) => {
+        module.default.init();
+    });
 }

@@ -89,7 +89,10 @@ export function getDiv(id: number): divMessage | undefined {
             throw new Error('getDiv获取失败！');
         }
         return value;
-    } catch (e) {
-        console.error(e);
+    } catch (e: any) {
+        if (e.message.match(/Cannot read properties of undefined/))
+            console.log('id超出map创建的矩阵范围');
+        else console.error(e.message);
+        return undefined;
     }
 }
