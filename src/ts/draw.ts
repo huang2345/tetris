@@ -71,17 +71,27 @@ var pointerIndex: number | undefined = undefined;
 export var containerWidth: string = '';
 class pointer {
     #pointerIndex: number | undefined = undefined;
+    #containerWidth: string = '';
     constructor() {
+        this.defaultIndex();
+    }
+    defaultIndex() {
         try {
             //匹配数字
-            let tempRegexp = /\d+/;
-            let columns = container?.style
-                .getPropertyValue('grid-template-columns')
-                .match(tempRegexp);
-            for (let i of columns!) {
-                containerWidth += i;
+            if (this.#containerWidth == '') {
+                let tempRegexp = /\d+/;
+                let columns = container?.style
+                    .getPropertyValue('grid-template-columns')
+                    .match(tempRegexp);
+                for (let i of columns!) {
+                    containerWidth += i;
+                }
+                this.#containerWidth = containerWidth;
             }
-            this.setPointerIndex(Math.floor(parseInt(containerWidth) / 2));
+            this.setPointerIndex(
+                Math.floor(parseInt(this.#containerWidth) / 2)
+            );
+            console.log(this.#pointerIndex);
             if (!this.getPointerIndex())
                 throw new Error('pointerIndex在进行默认设置时为undefined');
         } catch (e: any) {

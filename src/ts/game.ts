@@ -31,37 +31,19 @@ function anime() {
             pointer.getPointerIndex(),
             getDiv
         );
-        console.log(
-            'yes_setBackgroundColor',
-            draw_returnValue.yes_setBackgroundColor
-        );
         //碰撞检测
-        collisionDetection();
+        let detectionValue = collisionDetection();
         //根据碰撞检测的结果，判断是否终止循环
+        if (detectionValue) {
+            tetrisInit();
+            throw new Error('检测到碰撞，终止循环');
+        }
 
         //移动
-        // move(draw_returnValue);
+        move(draw_returnValue);
     } catch (e: any) {
         console.error(e.message);
     }
-}
-function move(draw_returnValue: draw_returnValue) {
-    setTimeout(() => {
-        try {
-            if (!draw_returnValue.yes_setBackgroundColor) {
-                throw new Error('上一次绘制失败！');
-            }
-            if (!draw_returnValue.clear()) throw new Error('清除失败');
-            // console.log(pointer.getPointerIndex()! + parseInt(containerWidth));
-            pointer.setPointerIndex(
-                pointer.getPointerIndex()! + parseInt(containerWidth)
-            );
-            // console.log('pointerIndex', pointer.getPointerIndex());
-            anime();
-        } catch (e: any) {
-            console.error(e.message);
-        }
-    }, 500);
 }
 function collisionDetection(): boolean | undefined {
     try {
@@ -114,7 +96,6 @@ function collisionDetection(): boolean | undefined {
                 }
             }
         }
-        console.log(nowBlock_direction_bottoms);
         //获取nowBlock_direction_bottom下1步的坐标
         try {
             for (let i of nowBlock_direction_bottoms) {
@@ -130,7 +111,7 @@ function collisionDetection(): boolean | undefined {
                 }
             }
         } catch (e: any) {
-            if (e.message.match(/Cannot read properties of undefined/)) {
+            if (e.message.match(/应该由碰撞检测函数处理的Error/)) {
                 console.log('碰撞检测：已到底部，结束循环');
                 return true;
             } else console.error(e.message);
@@ -140,10 +121,31 @@ function collisionDetection(): boolean | undefined {
         console.error(e.message);
     }
 }
+function move(draw_returnValue: draw_returnValue) {
+    setTimeout(() => {
+        try {
+            if (!draw_returnValue.yes_setBackgroundColor) {
+                throw new Error('上一次绘制失败！');
+            }
+            if (!draw_returnValue.clear()) throw new Error('清除失败');
+            // console.log(pointer.getPointerIndex()! + parseInt(containerWidth));
+            pointer.setPointerIndex(
+                pointer.getPointerIndex()! + parseInt(containerWidth)
+            );
+            // console.log('pointerIndex', pointer.getPointerIndex());
+            anime();
+        } catch (e: any) {
+            console.error(e.message);
+        }
+    }, 500);
+}
+
+function tetrisInit() {
+    pointer.defaultIndex();
+    set_nowBlock();
+    anime();
+}
 const testObject = {
-    init() {
-        set_nowBlock();
-        anime();
-    },
+    tetrisInit,
 };
 export default testObject;

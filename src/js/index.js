@@ -28,6 +28,6 @@ let container = document.createElement('div');
 }
 {
     import('./../ts/game.ts').then((module) => {
-        module.default.init();
+        module.default.tetrisInit();
     });
 }

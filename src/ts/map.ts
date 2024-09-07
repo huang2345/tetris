@@ -90,9 +90,10 @@ export function getDiv(id: number): divMessage | undefined {
         }
         return value;
     } catch (e: any) {
-        if (e.message.match(/Cannot read properties of undefined/))
+        if (e.message.match(/Cannot read properties of undefined/)) {
             console.log('id超出map创建的矩阵范围');
-        else console.error(e.message);
+            throw new Error('应该由碰撞检测函数处理的Error');
+        } else console.error(e.message);
         return undefined;
     }
 }
