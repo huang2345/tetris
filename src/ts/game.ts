@@ -5,6 +5,9 @@ const pointer = new Draw.pointer();
 
 let nowBlock: block | undefined;
 let nowBlock_direction: number[][] | undefined;
+let draw_returnValue: draw_returnValue | undefined;
+// let moveDirection: 'left' | 'right' | 'down' = 'down';
+
 function set_nowBlock(): boolean {
     try {
         nowBlock = Draw.random_block();
@@ -26,7 +29,7 @@ function anime() {
         if (!nowBlock) throw new Error('now_block为undefined');
         if (!nowBlock_direction)
             throw new Error('now_block_direction为undefined');
-        let draw_returnValue = Draw.draw(
+        draw_returnValue = Draw.draw(
             nowBlock_direction,
             pointer.getPointerIndex(),
             getDiv
@@ -121,13 +124,16 @@ function collisionDetection(): boolean | undefined {
         console.error(e.message);
     }
 }
-function move(draw_returnValue: draw_returnValue) {
+function move(
+    draw_returnValue: draw_returnValue
+    // direction: 'left' | 'right' | 'down'
+) {
     setTimeout(() => {
         try {
             if (!draw_returnValue.yes_setBackgroundColor) {
                 throw new Error('上一次绘制失败！');
             }
-            if (!draw_returnValue.clear()) throw new Error('清除失败');
+            if (!draw_returnValue.clear!()) throw new Error('清除失败');
             // console.log(pointer.getPointerIndex()! + parseInt(containerWidth));
             pointer.setPointerIndex(
                 pointer.getPointerIndex()! + parseInt(containerWidth)
@@ -139,7 +145,25 @@ function move(draw_returnValue: draw_returnValue) {
         }
     }, 500);
 }
-
+function add_control(container: HTMLElement) {
+    console.log('add_control', container);
+    container?.addEventListener('keydown', (e) => {
+        switch (e.key) {
+            case 'w':
+                break;
+            case 'a':
+                console.log('左');
+                pointer.setPointerIndex(pointer.getPointerIndex()! - 1);
+                break;
+            case 's':
+                break;
+            case 'd':
+                console.log('右');
+                pointer.setPointerIndex(pointer.getPointerIndex()! + 1);
+                break;
+        }
+    });
+}
 function tetrisInit() {
     pointer.defaultIndex();
     set_nowBlock();
@@ -147,5 +171,6 @@ function tetrisInit() {
 }
 const testObject = {
     tetrisInit,
+    add_control,
 };
 export default testObject;

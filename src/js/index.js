@@ -28,6 +28,7 @@ let container = document.createElement('div');
 }
 {
     import('./../ts/game.ts').then((module) => {
+        module.default.add_control(document.body);
         module.default.tetrisInit();
     });
 }
