@@ -49,65 +49,104 @@ function anime() {
     }
 }
 function collisionDetection(): boolean | undefined {
+    function get_nowBlock_directions(
+        direction: 'right' | 'left' | 'bottom'
+    ): divMessage[] {
+        let returnValue: divMessage[] = [];
+        if (!nowBlock) throw new Error('now_block为undefined');
+        if (!nowBlock_direction)
+            throw new Error('now_block_direction为undefined');
+        switch (direction) {
+            case 'left':
+                for (let i in nowBlock_direction) {
+                    if (nowBlock_direction[i][0] == 1) {
+                        let id =
+                            pointer.getPointerIndex()! +
+                            parseInt(containerWidth) * parseInt(i) -
+                            1;
+                        returnValue.push(getDiv(id)!);
+                    }
+                }
+                break;
+            case 'right':
+                for (let i in nowBlock_direction) {
+                    if (
+                        nowBlock_direction[i][
+                            nowBlock_direction[i].length - 1
+                        ] == 1
+                    ) {
+                        let id =
+                            pointer.getPointerIndex()! +
+                            parseInt(containerWidth) * parseInt(i) +
+                            nowBlock_direction[i].length +
+                            1;
+                        returnValue.push(getDiv(id)!);
+                    }
+                }
+                break;
+            case 'bottom':
+                for (let i = nowBlock_direction.length - 1; i >= 0; i--) {
+                    for (
+                        let j = returnValue.length;
+                        j < nowBlock_direction[i].length;
+                        j++
+                    ) {
+                        if (nowBlock_direction[i][j] === 1) {
+                            let id: number =
+                                pointer.getPointerIndex()! +
+                                i * parseInt(containerWidth) +
+                                j;
+                            let nowBlock_direction_bottom = getDiv(id);
+                            if (!nowBlock_direction_bottom)
+                                throw new Error(
+                                    'nowBlock_direction_bottom为undefined'
+                                );
+                            try {
+                                //检测获取到的有没有在已经获取的nowBlock_direction_bottoms的元素的上面的
+                                for (let i of returnValue) {
+                                    let testId =
+                                        nowBlock_direction_bottom.id +
+                                        parseInt(containerWidth);
+                                    if (testId == i.id)
+                                        throw new Error(
+                                            '获取到的元素在nowBlock_direction_bottoms的元素的上面'
+                                        );
+                                }
+                                returnValue.push(nowBlock_direction_bottom);
+                            } catch (e: any) {
+                                if (
+                                    e.message.match(
+                                        /获取到的元素在nowBlock_direction_bottoms的元素的上面/
+                                    )
+                                )
+                                    console.log(
+                                        '获取到的元素在nowBlock_direction_bottoms的元素的上面'
+                                    );
+                                else console.error(e.message);
+                            }
+                        }
+                    }
+                }
+                break;
+        }
+        return returnValue;
+    }
     try {
         if (!nowBlock) throw new Error('now_block为undefined');
         if (!nowBlock_direction)
             throw new Error('now_block_direction为undefined');
         //先获取当前nowBlock_direction的底部坐标
         //i为倒序是为了保证获取的是下面的坐标
-        let nowBlock_direction_bottoms: divMessage[] = [];
+        let nowBlock_directions: divMessage[] =
+            get_nowBlock_directions('bottom');
 
-        for (let i = nowBlock_direction.length - 1, now_j = 0; i >= 0; i--) {
-            for (
-                let j = nowBlock_direction_bottoms.length;
-                j < nowBlock_direction[i].length;
-                j++
-            ) {
-                if (nowBlock_direction[i][j] === 1) {
-                    let id: number =
-                        pointer.getPointerIndex()! +
-                        i * parseInt(containerWidth) +
-                        j;
-                    let nowBlock_direction_bottom = getDiv(id);
-                    if (!nowBlock_direction_bottom)
-                        throw new Error('nowBlock_direction_bottom为undefined');
-                    try {
-                        //检测获取到的有没有在已经获取的nowBlock_direction_bottoms的元素的上面的
-                        for (let i of nowBlock_direction_bottoms) {
-                            let testId =
-                                nowBlock_direction_bottom.id +
-                                parseInt(containerWidth);
-                            if (testId == i.id)
-                                throw new Error(
-                                    '获取到的元素在nowBlock_direction_bottoms的元素的上面'
-                                );
-                        }
-                        nowBlock_direction_bottoms.push(
-                            nowBlock_direction_bottom
-                        );
-                    } catch (e: any) {
-                        if (
-                            e.message.match(
-                                /获取到的元素在nowBlock_direction_bottoms的元素的上面/
-                            )
-                        )
-                            console.log(
-                                '获取到的元素在nowBlock_direction_bottoms的元素的上面'
-                            );
-                        else console.error(e.message);
-                    }
-                }
-            }
-        }
         //获取nowBlock_direction_bottom下1步的坐标
         try {
-            for (let i of nowBlock_direction_bottoms) {
+            for (let i of nowBlock_directions) {
                 let id: number = i.id + parseInt(containerWidth);
                 let nowBlock_direction_bottoms_next_ = getDiv(id);
                 if (!nowBlock_direction_bottoms_next_)
-                    throw new Error(
-                        'nowBlock_direction_bottoms_next_为undefined'
-                    );
+                    throw new Error('nowBlock_directions_next_为undefined');
                 if (nowBlock_direction_bottoms_next_.occupy == 1) {
                     console.log('碰撞检测：撞到其他方块，结束循环');
                     return true;
@@ -148,12 +187,30 @@ function move(
 function add_control(container: HTMLElement) {
     console.log('add_control', container);
     container?.addEventListener('keydown', (e) => {
+        let ifValueArray: divMessage[] = [];
+        let ifValue: boolean = true;
         switch (e.key) {
             case 'w':
                 break;
             case 'a':
                 console.log('左');
-                pointer.setPointerIndex(pointer.getPointerIndex()! - 1);
+                for (let i in nowBlock_direction!) {
+                    if (nowBlock_direction[i][0] == 1) {
+                        let id =
+                            pointer.getPointerIndex()! +
+                            parseInt(containerWidth) * parseInt(i) -
+                            1;
+                        ifValueArray.push(getDiv(id)!);
+                    }
+                }
+                for (let i in ifValueArray) {
+                    if (ifValueArray[i].occupy == 1) {
+                        ifValue = false;
+                        break;
+                    }
+                }
+                if (ifValue)
+                    pointer.setPointerIndex(pointer.getPointerIndex()! - 1);
                 break;
             case 's':
                 break;
